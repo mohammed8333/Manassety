@@ -1817,3 +1817,121 @@ body.dark-theme .glow-orb {
         text-align: center;
     }
 }
+
+/* 13. Advanced Mobile Phone Optimization (screens < 480px)
+   ========================================================================== */
+@media (max-width: 480px) {
+    /* Main Sticky Header Tweaks */
+    .main-header {
+        padding: 0 0.75rem !important;
+        height: 70px !important;
+    }
+    
+    .logo-container {
+        font-size: 1.1rem !important;
+        gap: 0.35rem !important;
+    }
+    
+    .logo-icon-wrap {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 0.9rem !important;
+        border-radius: var(--radius-sm) !important;
+    }
+    
+    .header-actions {
+        gap: 0.4rem !important;
+    }
+    
+    #header-cta-btn {
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.75rem !important;
+        border-radius: 8px !important;
+    }
+    
+    #theme-toggle-btn {
+        width: 36px !important;
+        height: 36px !important;
+        border-radius: 8px !important;
+    }
+    
+    /* Hero Layout Mobile Responsive fixes */
+    .hero-section {
+        padding: 4rem 1rem 2rem !important;
+        gap: 2rem !important;
+    }
+    
+    .hero-content h1 {
+        font-size: 2.0rem !important;
+        line-height: 1.35 !important;
+    }
+    
+    .hero-description {
+        font-size: 0.9rem !important;
+        margin-bottom: 1.75rem !important;
+        line-height: 1.6 !important;
+    }
+    
+    .hero-buttons {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 0.75rem !important;
+    }
+    
+    .hero-buttons button {
+        width: 100% !important;
+        justify-content: center !important;
+        padding: 0.65rem 1.25rem !important;
+        font-size: 0.95rem !important;
+    }
+    
+    /* Hero Floating elements scale-down */
+    .hero-floating-card {
+        padding: 0.4rem 0.75rem !important;
+        gap: 0.4rem !important;
+        border-radius: var(--radius-sm) !important;
+    }
+    
+    .hero-floating-card h4 {
+        font-size: 0.75rem !important;
+    }
+    
+    .hero-floating-card p {
+        font-size: 0.6rem !important;
+    }
+    
+    .float-icon {
+        width: 28px !important;
+        height: 28px !important;
+        font-size: 0.85rem !important;
+        border-radius: 4px !important;
+    }
+    
+    .hero-floating-card.card-1 {
+        right: 4% !important;
+        top: 6% !important;
+    }
+    
+    .hero-floating-card.card-2 {
+        left: 4% !important;
+        bottom: 6% !important;
+    }
+    
+    /* Stats grid and spacing */
+    .stats-section {
+        padding: 2rem 1rem !important;
+        gap: 1rem !important;
+    }
+    
+    .stat-card {
+        padding: 1.25rem 1rem !important;
+    }
+    
+    .stat-num {
+        font-size: 1.75rem !important;
+    }
+    
+    .stat-label {
+        font-size: 0.8rem !important;
+    }
+}
