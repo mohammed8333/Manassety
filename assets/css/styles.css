@@ -1,0 +1,1819 @@
+/* ==========================================================================
+   Menassaty Core Design System & Styles
+   Premium Arabic Educational Platform CSS
+   ========================================================================== */
+
+/* 1. CSS Variable Definitions & Themes
+   ========================================================================== */
+:root {
+    /* Fonts */
+    --font-heading: 'Cairo', sans-serif;
+    --font-body: 'Tajawal', sans-serif;
+    
+    /* Layout */
+    --sidebar-width: 280px;
+    --header-height: 80px;
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-xl: 32px;
+    
+    /* Transitions */
+    --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Shadows */
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --shadow-glow: 0 0 25px rgba(99, 102, 241, 0.2);
+}
+
+/* Light Theme Variables */
+body.light-theme {
+    --bg-primary: #f8fafc;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f1f5f9;
+    
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    
+    --primary: #4f46e5; /* Royal Indigo */
+    --primary-light: #e0e7ff;
+    --primary-glow: rgba(79, 70, 229, 0.15);
+    
+    --secondary: #06b6d4; /* Neon Cyan */
+    --secondary-light: #ecfeff;
+    
+    --accent: #f43f5e; /* Vibrant Rose */
+    --accent-light: #ffe4e6;
+    
+    --success: #10b981; /* Emerald */
+    --success-light: #d1fae5;
+    
+    --warning: #f59e0b; /* Amber */
+    
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --glass-shadow: rgba(31, 38, 135, 0.04);
+    --card-border: rgba(226, 232, 240, 0.8);
+    
+    --grid-color: rgba(79, 70, 229, 0.03);
+}
+
+/* Dark Theme Variables */
+body.dark-theme {
+    --bg-primary: #0b0f19;
+    --bg-secondary: #111827;
+    --bg-tertiary: #1f2937;
+    
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-muted: #64748b;
+    
+    --primary: #6366f1; /* Bright Indigo */
+    --primary-light: #1e1b4b;
+    --primary-glow: rgba(99, 102, 241, 0.3);
+    
+    --secondary: #22d3ee; /* Bright Cyan */
+    --secondary-light: #083344;
+    
+    --accent: #fb7185; /* Bright Rose */
+    --accent-light: #4c0519;
+    
+    --success: #34d399; /* Emerald */
+    --success-light: #064e3b;
+    
+    --warning: #fbbf24;
+    
+    --glass-bg: rgba(17, 24, 39, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    --glass-shadow: rgba(0, 0, 0, 0.3);
+    --card-border: rgba(255, 255, 255, 0.06);
+    
+    --grid-color: rgba(99, 102, 241, 0.02);
+}
+
+/* 2. Global Resets & Base Styles
+   ========================================================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.6;
+    transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--text-muted);
+    border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
+
+/* 3. Premium Decorative Background Layouts
+   ========================================================================== */
+.bg-grid-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -3;
+    pointer-events: none;
+    background-size: 32px 32px;
+    background-image: 
+        linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+    mask-image: radial-gradient(ellipse at 50% 50%, black 60%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 60%, transparent 100%);
+}
+
+.glow-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.25;
+    z-index: -2;
+    pointer-events: none;
+    transition: all var(--transition-slow);
+}
+
+.orb-1 {
+    top: -10%;
+    right: 10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+}
+
+.orb-2 {
+    bottom: -10%;
+    left: 10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, var(--secondary) 0%, transparent 70%);
+}
+
+.orb-3 {
+    top: 40%;
+    left: 40%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+    opacity: 0.1;
+}
+
+body.dark-theme .glow-orb {
+    opacity: 0.35;
+}
+
+/* 4. Common Design System Components (Buttons, Glass, etc)
+   ========================================================================== */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px 0 var(--glass-shadow);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, #312e81 120%);
+    color: #ffffff !important;
+    padding: 0.75rem 1.75rem;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.4);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), opacity var(--transition-fast);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px 0 rgba(79, 70, 229, 0.6), var(--shadow-glow);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background: var(--bg-secondary);
+    border: 1px solid var(--card-border);
+    color: var(--text-primary);
+    padding: 0.75rem 1.75rem;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: var(--shadow-sm);
+    transition: background-color var(--transition-fast), transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.btn-secondary:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.btn-icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    border: 1px solid var(--card-border);
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px);
+    transition: all var(--transition-fast);
+}
+
+.btn-icon:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: scale(1.05);
+}
+
+.badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.badge-primary {
+    background-color: var(--primary-light);
+    color: var(--primary);
+}
+
+.badge-secondary {
+    background-color: var(--secondary-light);
+    color: var(--secondary);
+}
+
+.badge-success {
+    background-color: var(--success-light);
+    color: var(--success);
+}
+
+/* 5. Header / Navigation Styles (Landing Mode)
+   ========================================================================== */
+.main-header {
+    height: var(--header-height);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4rem;
+    transition: background-color var(--transition-normal), border-bottom var(--transition-normal);
+}
+
+.main-header.scrolled {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: 0 4px 20px 0 var(--glass-shadow);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.logo-icon-wrap {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.25rem;
+    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+.nav-link {
+    font-weight: 600;
+    color: var(--text-secondary);
+    position: relative;
+    padding: 0.5rem 0;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: width var(--transition-fast);
+}
+
+.nav-link:hover {
+    color: var(--primary);
+}
+
+.nav-link:hover::after, .nav-link.active::after {
+    width: 100%;
+}
+
+.nav-link.active {
+    color: var(--primary);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* 6. Landing Page Styles
+   ========================================================================== */
+/* Hero Section */
+.hero-section {
+    padding: 6rem 4rem 4rem;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 4rem;
+    align-items: center;
+    min-height: calc(100vh - var(--header-height));
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+
+.hero-description {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
+    max-width: 580px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1.25rem;
+}
+
+.hero-image-container {
+    position: relative;
+}
+
+.hero-main-img {
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--glass-border);
+    transition: transform var(--transition-slow);
+    z-index: 2;
+    position: relative;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    background: var(--bg-secondary);
+}
+
+.hero-image-container:hover .hero-main-img {
+    transform: translateY(-8px) rotate(-1deg);
+}
+
+.hero-floating-card {
+    position: absolute;
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 3;
+    box-shadow: var(--shadow-lg);
+    animation: float 4s ease-in-out infinite;
+}
+
+.hero-floating-card.card-1 {
+    top: 10%;
+    right: -10%;
+}
+
+.hero-floating-card.card-2 {
+    bottom: 10%;
+    left: -10%;
+    animation-delay: 2s;
+}
+
+.float-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    background: var(--primary-light);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.hero-floating-card.card-2 .float-icon {
+    background: var(--success-light);
+    color: var(--success);
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Stats Section */
+.stats-section {
+    padding: 4rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+.stat-card {
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--card-border);
+    text-align: center;
+    background: var(--bg-secondary);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-fast);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary);
+}
+
+.stat-num {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.stat-label {
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+/* Featured Courses Section */
+.featured-courses {
+    padding: 6rem 4rem;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3.5rem;
+}
+
+.section-title h2 {
+    font-size: 2.2rem;
+    margin-bottom: 0.75rem;
+}
+
+.section-title p {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+}
+
+.course-filters {
+    display: flex;
+    gap: 1rem;
+}
+
+.filter-btn {
+    padding: 0.6rem 1.25rem;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: var(--bg-secondary);
+    border: 1px solid var(--card-border);
+    transition: all var(--transition-fast);
+}
+
+.filter-btn.active, .filter-btn:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.2);
+}
+
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+}
+
+/* Elegant Course Card */
+.course-card {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--bg-secondary);
+    border: 1px solid var(--card-border);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.course-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--primary-glow);
+    box-shadow: var(--shadow-lg), 0 10px 30px -10px var(--primary-glow);
+}
+
+.course-card-img-wrap {
+    position: relative;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: var(--bg-tertiary);
+}
+
+.course-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-normal);
+}
+
+.course-card:hover .course-card-img {
+    transform: scale(1.08);
+}
+
+.course-card-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 2;
+}
+
+.course-card-content {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.course-meta {
+    display: flex;
+    gap: 1rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+}
+
+.course-card-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+}
+
+.course-card-desc {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+    flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.course-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--bg-tertiary);
+}
+
+.instructor-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.instructor-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.instructor-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.enroll-card-btn {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    transition: color var(--transition-fast);
+}
+
+.enroll-card-btn:hover {
+    color: var(--secondary);
+}
+
+/* Footer */
+.main-footer {
+    border-top: 1px solid var(--card-border);
+    padding: 4rem 4rem 2rem;
+    background: var(--bg-secondary);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr repeat(3, 1fr);
+    gap: 4rem;
+    margin-bottom: 3rem;
+}
+
+.footer-about p {
+    color: var(--text-secondary);
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    max-width: 320px;
+}
+
+.footer-links-col h4 {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.footer-links-col ul {
+    list-style: none;
+}
+
+.footer-links-col ul li {
+    margin-bottom: 0.75rem;
+}
+
+.footer-links-col ul li a {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.footer-links-col ul li a:hover {
+    color: var(--primary);
+    padding-right: 0.25rem;
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 2rem;
+    border-top: 1px solid var(--bg-tertiary);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--bg-tertiary);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+}
+
+.social-icon:hover {
+    background: var(--primary);
+    color: white;
+    transform: scale(1.1);
+}
+
+/* 7. Student Dashboard Layout
+   ========================================================================== */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Elegant Sidebar */
+.dashboard-sidebar {
+    width: var(--sidebar-width);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 90;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--glass-border);
+}
+
+.sidebar-logo {
+    margin-bottom: 3.5rem;
+}
+
+.sidebar-menu {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex-grow: 1;
+}
+
+.sidebar-item a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.9rem 1.25rem;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: all var(--transition-fast);
+}
+
+.sidebar-item a:hover {
+    background: var(--bg-tertiary);
+    color: var(--primary);
+}
+
+.sidebar-item.active a {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.sidebar-item.active i {
+    color: var(--primary);
+}
+
+.sidebar-footer {
+    padding-top: 2rem;
+    border-top: 1px solid var(--glass-border);
+}
+
+.user-profile-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.user-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    object-fit: cover;
+}
+
+.user-details {
+    overflow: hidden;
+}
+
+.user-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.user-role {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* Dashboard Main Content Area */
+.dashboard-content {
+    margin-right: var(--sidebar-width);
+    flex-grow: 1;
+    padding: 2.5rem 3.5rem;
+    min-height: 100vh;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+}
+
+.welcome-msg h2 {
+    font-size: 1.8rem;
+    margin-bottom: 0.25rem;
+}
+
+.welcome-msg p {
+    color: var(--text-secondary);
+}
+
+.dashboard-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Dashboard Progress Summary */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.dashboard-stat-card {
+    padding: 1.75rem;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.db-stat-details h4 {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.db-stat-num {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.db-stat-icon-wrap {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.dashboard-stat-card.card-1 {
+    background: linear-gradient(135deg, rgba(79, 70, 229, 0.1) 0%, rgba(79, 70, 229, 0.05) 100%);
+    border: 1px solid rgba(79, 70, 229, 0.15);
+}
+
+.dashboard-stat-card.card-2 {
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%);
+    border: 1px solid rgba(6, 182, 212, 0.15);
+}
+.dashboard-stat-card.card-2 .db-stat-icon-wrap {
+    color: var(--secondary);
+}
+
+.dashboard-stat-card.card-3 {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+    border: 1px solid rgba(16, 185, 129, 0.15);
+}
+.dashboard-stat-card.card-3 .db-stat-icon-wrap {
+    color: var(--success);
+}
+
+/* Dashboard Sections */
+.dashboard-section-title {
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.resume-course-widget {
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    margin-bottom: 3rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 2rem;
+}
+
+.resume-details h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.resume-details p {
+    color: var(--text-secondary);
+    margin-bottom: 1.25rem;
+    font-size: 0.95rem;
+}
+
+.progress-bar-container {
+    background: var(--bg-tertiary);
+    height: 8px;
+    border-radius: 999px;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+    height: 100%;
+    border-radius: 999px;
+    transition: width var(--transition-slow);
+}
+
+.progress-pct {
+    margin-right: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.my-courses-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+/* Dashboard Course Cards with progress */
+.db-course-card {
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--card-border);
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    display: flex;
+    gap: 1.5rem;
+    transition: all var(--transition-fast);
+}
+
+.db-course-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary);
+}
+
+.db-card-img {
+    width: 120px;
+    height: 90px;
+    border-radius: var(--radius-md);
+    object-fit: cover;
+    background: var(--bg-tertiary);
+}
+
+.db-card-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.db-card-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.db-card-lessons {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+}
+
+.db-card-progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.db-card-progress-fill {
+    height: 6px;
+}
+
+.db-card-btn {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--primary);
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+}
+
+/* 8. Course Player Layout
+   ========================================================================== */
+.player-container {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.player-main-view {
+    height: 100%;
+    overflow-y: auto;
+    padding: 2.5rem;
+    background: var(--bg-primary);
+}
+
+.player-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.back-to-db-btn {
+    font-weight: 600;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color var(--transition-fast);
+}
+
+.back-to-db-btn:hover {
+    color: var(--primary);
+}
+
+.player-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+}
+
+/* Video Player Component */
+.video-player-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    background: #000000;
+    margin-bottom: 2rem;
+}
+
+.custom-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Simulator Play Screen overlay */
+.video-overlay-play {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.video-overlay-play:hover {
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.play-central-btn {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    box-shadow: 0 0 30px rgba(99, 102, 241, 0.6);
+    transition: transform var(--transition-fast), background-color var(--transition-fast);
+}
+
+.video-overlay-play:hover .play-central-btn {
+    transform: scale(1.1);
+    background: var(--secondary);
+}
+
+/* Custom Video Controls Panel */
+.custom-video-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    z-index: 11;
+    transform: translateY(100%);
+    transition: transform var(--transition-fast);
+}
+
+.video-player-wrapper:hover .custom-video-controls,
+.video-player-wrapper.paused .custom-video-controls {
+    transform: translateY(0);
+}
+
+.progress-control-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 999px;
+    cursor: pointer;
+    position: relative;
+}
+
+.progress-control-fill {
+    background: var(--primary);
+    height: 100%;
+    border-radius: 999px;
+    width: 0%;
+}
+
+.controls-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+}
+
+.left-controls {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.video-control-btn {
+    color: white;
+    font-size: 1.1rem;
+    opacity: 0.8;
+    transition: opacity var(--transition-fast);
+}
+
+.video-control-btn:hover {
+    opacity: 1;
+}
+
+.video-timer {
+    font-size: 0.85rem;
+    font-family: monospace;
+}
+
+/* Player Curriculum Sidebar */
+.player-sidebar {
+    height: 100vh;
+    border-right: 1px solid var(--glass-border);
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-secondary);
+}
+
+.sidebar-curriculum-header {
+    padding: 2rem 1.5rem;
+    border-bottom: 1px solid var(--bg-tertiary);
+}
+
+.curriculum-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.curriculum-progress-text {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.lessons-list {
+    overflow-y: auto;
+    flex-grow: 1;
+    list-style: none;
+}
+
+.chapter-header {
+    padding: 0.75rem 1.5rem;
+    background: var(--bg-tertiary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--card-border);
+}
+
+.lesson-item {
+    border-bottom: 1px solid var(--bg-tertiary);
+    transition: background-color var(--transition-fast);
+}
+
+.lesson-item-btn {
+    width: 100%;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-align: right;
+}
+
+.lesson-checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 2px solid var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    color: transparent;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.lesson-item.completed .lesson-checkbox {
+    background-color: var(--success);
+    border-color: var(--success);
+    color: white;
+}
+
+.lesson-item-details {
+    flex-grow: 1;
+}
+
+.lesson-title-text {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+    display: block;
+}
+
+.lesson-dur-text {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.lesson-item.active {
+    background-color: var(--primary-light);
+}
+
+.lesson-item.active .lesson-title-text {
+    color: var(--primary);
+}
+
+/* Tabs & Video Panels */
+.player-tabs-bar {
+    display: flex;
+    border-bottom: 2px solid var(--bg-tertiary);
+    margin-bottom: 2rem;
+}
+
+.player-tab-btn {
+    padding: 1rem 2rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: all var(--transition-fast);
+}
+
+.player-tab-btn:hover {
+    color: var(--primary);
+}
+
+.player-tab-btn.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+.tab-panel-content {
+    display: none;
+    animation: fadeIn var(--transition-normal);
+}
+
+.tab-panel-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Quiz Tab Styling */
+.quiz-panel-wrapper {
+    max-width: 800px;
+}
+
+.quiz-intro-card {
+    padding: 2.5rem;
+    border-radius: var(--radius-lg);
+    text-align: center;
+}
+
+.quiz-intro-icon {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+}
+
+.quiz-intro-card h3 {
+    font-size: 1.6rem;
+    margin-bottom: 0.75rem;
+}
+
+.quiz-intro-card p {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+/* Interactive Question Card */
+.quiz-question-container {
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+    background: var(--bg-secondary);
+    border: 1px solid var(--card-border);
+    margin-bottom: 1.5rem;
+}
+
+.quiz-q-header {
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.quiz-question-text {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+
+.quiz-options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.quiz-option-btn {
+    width: 100%;
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius-md);
+    background: var(--bg-tertiary);
+    border: 1px solid var(--card-border);
+    text-align: right;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all var(--transition-fast);
+}
+
+.quiz-option-btn:hover {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    transform: translateX(-4px);
+}
+
+.quiz-option-btn.selected {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.quiz-option-icon {
+    font-size: 1.2rem;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+
+.quiz-option-btn.selected .quiz-option-icon {
+    opacity: 1;
+}
+
+.quiz-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Quiz Finished / Result Screen */
+.quiz-result-card {
+    text-align: center;
+    padding: 3.5rem 2.5rem;
+    border-radius: var(--radius-xl);
+}
+
+.result-badge {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    margin: 0 auto 2rem;
+}
+
+.result-badge.passed {
+    background-color: var(--success-light);
+    color: var(--success);
+    box-shadow: 0 0 25px var(--success-light);
+}
+
+.result-badge.failed {
+    background-color: var(--accent-light);
+    color: var(--accent);
+}
+
+.score-text {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.result-msg {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
+}
+
+/* Resources panel */
+.resources-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.resource-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    border: 1px solid var(--card-border);
+    transition: transform var(--transition-fast);
+}
+
+.resource-item:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary);
+}
+
+.resource-details {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.resource-icon {
+    font-size: 1.5rem;
+    color: var(--primary);
+}
+
+.resource-name-text {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.resource-size {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.download-res-btn {
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* 9. Dark/Light Theme Selector styling
+   ========================================================================== */
+.theme-toggle-container {
+    position: relative;
+}
+
+/* 10. Toast Notification styling
+   ========================================================================== */
+.toast-container {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.toast {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-right: 4px solid var(--primary);
+    box-shadow: var(--shadow-lg);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-width: 300px;
+    max-width: 450px;
+    animation: slideInLeft var(--transition-normal);
+    transition: opacity var(--transition-normal), transform var(--transition-normal);
+}
+
+.toast.toast-success {
+    border-right-color: var(--success);
+}
+
+.toast.toast-error {
+    border-right-color: var(--accent);
+}
+
+.toast i {
+    font-size: 1.25rem;
+}
+
+.toast.toast-success i {
+    color: var(--success);
+}
+
+.toast.toast-error i {
+    color: var(--accent);
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 11. Confetti Effects for quiz finish
+   ========================================================================== */
+.confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 999;
+}
+
+.confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: var(--primary);
+    opacity: 0;
+    transform-origin: center;
+    animation: confetti-fall 4s ease-out forwards;
+}
+
+@keyframes confetti-fall {
+    0% {
+        opacity: 1;
+        transform: translateY(-50px) rotate(0deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(100vh) rotate(720deg);
+    }
+}
+
+/* 12. Responsive Media Queries
+   ========================================================================== */
+@media (max-width: 1200px) {
+    .courses-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .player-container {
+        grid-template-columns: 1fr 300px;
+    }
+}
+
+@media (max-width: 992px) {
+    .main-header {
+        padding: 0 2rem;
+    }
+    
+    .hero-section {
+        grid-template-columns: 1fr;
+        padding: 4rem 2rem;
+        gap: 3rem;
+        text-align: center;
+    }
+    
+    .hero-content h1 {
+        font-size: 2.8rem;
+    }
+    
+    .hero-description {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .hero-buttons {
+        justify-content: center;
+    }
+    
+    .stats-section {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 2rem;
+    }
+    
+    .featured-courses {
+        padding: 4rem 2rem;
+    }
+    
+    .dashboard-sidebar {
+        width: 80px;
+        padding: 2rem 0.5rem;
+        align-items: center;
+    }
+    
+    .sidebar-logo .logo-container span,
+    .sidebar-menu .sidebar-item span,
+    .user-profile-badge .user-details {
+        display: none;
+    }
+    
+    .sidebar-logo .logo-container {
+        justify-content: center;
+    }
+    
+    .sidebar-item a {
+        justify-content: center;
+        padding: 1rem;
+    }
+    
+    .dashboard-content {
+        margin-right: 80px;
+        padding: 2rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .my-courses-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .player-container {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+    
+    .player-sidebar {
+        height: 500px;
+        border-right: none;
+        border-top: 1px solid var(--glass-border);
+    }
+}
+
+@media (max-width: 768px) {
+    .main-nav {
+        display: none; /* In a real app we'd have a mobile hamburger, but keeping it clean for SPA */
+    }
+    
+    .courses-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .resume-course-widget {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+}
