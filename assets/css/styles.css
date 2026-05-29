@@ -108,6 +108,9 @@ html {
     scroll-behavior: smooth;
     font-size: 16px;
     -webkit-tap-highlight-color: transparent;
+    overflow-x: hidden !important;
+    width: 100%;
+    max-width: 100%;
 }
 
 body {
@@ -115,9 +118,17 @@ body {
     color: var(--text-primary);
     font-family: var(--font-body);
     min-height: 100vh;
-    overflow-x: hidden;
+    overflow-x: hidden !important;
+    width: 100%;
+    max-width: 100%;
     line-height: 1.6;
     transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+#app {
+    overflow: hidden !important;
+    width: 100%;
+    position: relative;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -1790,6 +1801,10 @@ body.dark-theme .glow-orb {
 }
 
 @media (max-width: 768px) {
+    .glow-orb {
+        display: none !important;
+    }
+    
     .main-nav {
         display: none; /* In a real app we'd have a mobile hamburger, but keeping it clean for SPA */
     }
