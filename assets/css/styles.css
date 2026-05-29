@@ -1818,9 +1818,63 @@ body.dark-theme .glow-orb {
     }
 }
 
+/* ==========================================================================
+   School Responsive Layout Custom Classes (Replacing Inline Grids)
+   ========================================================================== */
+.promo-section {
+    margin: 4rem;
+    padding: 4rem;
+    border-radius: var(--radius-xl);
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.testimonials-section {
+    padding: 4rem;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--card-border);
+    border-bottom: 1px solid var(--card-border);
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+@media (max-width: 992px) {
+    .promo-section {
+        margin: 2rem 1.25rem;
+        padding: 2.5rem 1.75rem;
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+    
+    .testimonials-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .testimonials-section {
+        padding: 3rem 1rem;
+    }
+    
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
 /* 13. Advanced Mobile Phone Optimization (screens < 480px)
    ========================================================================== */
 @media (max-width: 480px) {
+    /* Hide CTA Button in Mobile header for spacing and 100% clean single-row header */
+    #header-cta-btn {
+        display: none !important;
+    }
     /* Main Sticky Header Tweaks */
     .main-header {
         padding: 0 0.75rem !important;

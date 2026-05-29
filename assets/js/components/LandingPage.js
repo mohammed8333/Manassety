@@ -162,7 +162,7 @@ export function initLandingPage(container, state, actions) {
             </section>
 
             <!-- Premium App Value Statement Section -->
-            <section class="glass-panel" style="margin: 4rem; padding: 4rem; border-radius: var(--radius-xl); display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: center;">
+            <section class="glass-panel promo-section">
                 <div>
                     <h2 style="font-size: 2.2rem; margin-bottom: 1.5rem;">لماذا يختار الطلاب وأولياء الأمور منصتنا؟</h2>
                     <p style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.05rem;">نحن لا نقدم مجرد دروس مسجلة، بل نبني بيئة دراسية متكاملة تزيد من استيعاب الطلاب وتهيئهم للامتحانات عبر أحدث التقنيات التفاعلية الذكية.</p>
@@ -202,12 +202,12 @@ export function initLandingPage(container, state, actions) {
             </section>
 
             <!-- Testimonials & Reviews Section -->
-            <section style="padding: 4rem; background: var(--bg-secondary); border-top: 1px solid var(--card-border); border-bottom: 1px solid var(--card-border);">
+            <section class="testimonials-section">
                 <div class="section-title" style="text-align: center; margin-bottom: 3.5rem;">
                     <h2>قصص نجاح وتفوق ملهمة</h2>
                     <p>طلابنا يحصدون الدرجات النهائية ويتصدرون قوائم المتفوقين دائماً</p>
                 </div>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
+                <div class="testimonials-grid">
                     <!-- Testimonial 1 -->
                     <div class="glass-panel" style="padding: 2rem; border-radius: var(--radius-lg);">
                         <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1.5rem;">
