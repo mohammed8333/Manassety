@@ -2003,4 +2003,27 @@ body.dark-theme .glow-orb {
     .stat-label {
         font-size: 0.8rem !important;
     }
+    
+    /* Section Header and Course Filters responsive layout fixes */
+    .section-header {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        gap: 1.25rem !important;
+        margin-bottom: 2.5rem !important;
+        width: 100% !important;
+    }
+    
+    .course-filters {
+        justify-content: center !important;
+        flex-wrap: wrap !important;
+        gap: 0.5rem !important;
+        width: 100% !important;
+    }
+    
+    .filter-btn {
+        padding: 0.5rem 1rem !important;
+        font-size: 0.85rem !important;
+        border-radius: 8px !important;
+    }
 }
