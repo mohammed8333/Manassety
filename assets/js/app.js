@@ -3,9 +3,9 @@
    SPA Orchestrator, State Manager & Toast Alert System
    ========================================================================== */
 
-import { initLandingPage } from './components/LandingPage.js';
-import { initDashboard } from './components/Dashboard.js';
-import { initCoursePlayer } from './components/CoursePlayer.js';
+import { initLandingPage } from './components/LandingPage.js?v=1.3';
+import { initDashboard } from './components/Dashboard.js?v=1.3';
+import { initCoursePlayer } from './components/CoursePlayer.js?v=1.3';
 
 // 1. Initial Default State
 const DEFAULT_STATE = {

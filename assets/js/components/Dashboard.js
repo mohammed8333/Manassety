@@ -2,7 +2,7 @@
    Menassaty School Student Dashboard Component
    ========================================================================== */
 
-import { courses } from '../coursesData.js';
+import { courses } from '../coursesData.js?v=1.3';
 
 export function initDashboard(container, state, actions) {
     

@@ -2,7 +2,7 @@
    Menassaty School Course Player & Interactive Quiz Component
    ========================================================================== */
 
-import { courses } from '../coursesData.js';
+import { courses } from '../coursesData.js?v=1.3';
 
 export function initCoursePlayer(container, state, actions, courseId) {
     const course = courses.find(c => c.id === courseId);

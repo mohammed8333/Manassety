@@ -2,7 +2,7 @@
    Menassaty School Landing Page Component (With Stages & Grades Selector)
    ========================================================================== */
 
-import { courses } from '../coursesData.js';
+import { courses } from '../coursesData.js?v=1.3';
 
 export function initLandingPage(container, state, actions) {
     let currentFilter = 'all';
