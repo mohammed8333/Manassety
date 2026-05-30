@@ -21,7 +21,7 @@ export function initLandingPage(container, state, actions) {
             <header class="main-header glass-panel scrolled">
                 <div class="logo-container">
                     <div class="logo-icon-wrap">
-                        <i class="fa-solid fa-graduation-cap"></i>
+                        <img src="assets/images/logo.png" alt="شعار منصتي" class="logo-img">
                     </div>
                     <span>منصتي المدرسية</span>
                 </div>
@@ -366,7 +366,7 @@ export function initLandingPage(container, state, actions) {
                     <div class="footer-about">
                         <div class="logo-container" style="font-size: 1.8rem; margin-bottom: 1rem;">
                             <div class="logo-icon-wrap" style="width: 46px; height: 46px;">
-                                <i class="fa-solid fa-graduation-cap"></i>
+                                <img src="assets/images/logo.png" alt="شعار منصتي" class="logo-img">
                             </div>
                             <span>منصتي المدرسية</span>
                         </div>
