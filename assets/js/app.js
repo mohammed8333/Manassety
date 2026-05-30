@@ -12,14 +12,17 @@ const DEFAULT_STATE = {
     theme: 'light',
     currentRoute: 'landing', // 'landing', 'dashboard', 'classroom'
     activeCourseId: null,
+    selectedStage: 'secondary', // 'primary', 'preparatory', 'secondary'
+    selectedGrade: 'sec3', // prim1-prim6, prep1-prep3, sec1-sec3
+    selectedGradeAr: 'الصف الثالث الثانوي',
     user: {
         name: 'م. محمد السالم',
         email: 'mohamed.developer@gmail.com',
         avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=100&h=100'
     },
-    enrolledCourses: ['course-1'], // Mohamed is enrolled in course 1 by default to show progress
+    enrolledCourses: ['course-math-sec3', 'course-physics-sec3'], // Default enrolled courses
     completedLessons: {
-        'course-1': ['c1-l1', 'c1-l2'] // Defaults to show some progress in the first course
+        'course-math-sec3': ['c1-l1']
     },
     passedQuizzes: []
 };
@@ -45,6 +48,16 @@ function saveState() {
 
 // 3. Central Actions definitions
 const actions = {
+    // Stage & Grade Selection
+    selectGrade(stage, grade, gradeAr) {
+        state.selectedStage = stage;
+        state.selectedGrade = grade;
+        state.selectedGradeAr = gradeAr;
+        saveState();
+        actions.showToast(`مرحباً بك في ${gradeAr}! 🏫`, 'success');
+        renderCurrentRoute();
+    },
+
     // Theme Management
     toggleTheme() {
         state.theme = state.theme === 'light' ? 'dark' : 'light';

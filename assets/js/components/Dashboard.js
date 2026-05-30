@@ -33,6 +33,8 @@ export function initDashboard(container, state, actions) {
     }
 
     function render() {
+        // Filter enrolled courses based on user's active stage/grade, or display all but let them know!
+        // We'll show all their enrolled courses so they don't lose access, but prioritize display!
         const enrolledIds = state.enrolledCourses;
         const enrolledList = courses.filter(c => enrolledIds.includes(c.id));
         
@@ -62,7 +64,6 @@ export function initDashboard(container, state, actions) {
                     break;
                 }
             }
-            // Fallback to the last course if all are completed or none found
             if (!resumeCourse) {
                 resumeCourse = enrolledList[enrolledList.length - 1];
                 resumeProgress = calculateCourseProgress(resumeCourse.id);
@@ -132,6 +133,23 @@ export function initDashboard(container, state, actions) {
                             </button>
                         </div>
                     </header>
+
+                    <!-- Active Grade Level Card Widget -->
+                    <div class="glass-panel" style="padding: 1.25rem 2rem; border-radius: var(--radius-lg); margin-bottom: 2.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; border-color: rgba(99,102,241,0.25);">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div class="badge badge-primary" style="width: 46px; height: 46px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
+                                🏫
+                            </div>
+                            <div>
+                                <h4 style="font-weight: 700; font-size: 1.1rem; color: var(--text-primary);">صفك الدراسي الحالي</h4>
+                                <p style="font-size: 0.85rem; color: var(--text-secondary);">${state.selectedGradeAr}</p>
+                            </div>
+                        </div>
+                        <button class="btn-secondary" id="change-grade-dashboard-btn" style="padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 8px;">
+                            <span>تغيير الصف الدراسي</span>
+                            <i class="fa-solid fa-rotate-left"></i>
+                        </button>
+                    </div>
 
                     <!-- Stats Row -->
                     <div class="stats-grid">
@@ -223,8 +241,9 @@ export function initDashboard(container, state, actions) {
                                         <div class="db-card-info">
                                             <div>
                                                 <h4 class="db-card-title">${course.title}</h4>
-                                                <div class="db-card-lessons">
+                                                <div class="db-card-lessons" style="display:flex; justify-content:space-between; align-items:center; width:100%; margin-bottom: 0.5rem;">
                                                     <span>${prog.completedCount} / ${prog.totalLessons} حصص مكتملة</span>
+                                                    <span class="badge badge-secondary" style="font-size:0.75rem;">${course.gradeAr}</span>
                                                 </div>
                                             </div>
                                             <div>
@@ -262,6 +281,18 @@ export function initDashboard(container, state, actions) {
             });
         }
 
+        // Change grade portal redirection
+        const changeGradeBtn = container.querySelector('#change-grade-dashboard-btn');
+        if (changeGradeBtn) {
+            changeGradeBtn.addEventListener('click', () => {
+                actions.navigate('landing');
+                setTimeout(() => {
+                    const sec = document.querySelector('#stages-section');
+                    if (sec) sec.scrollIntoView({ behavior: 'smooth' });
+                }, 150);
+            });
+        }
+
         // Sidebar link routing
         const sidebarDb = container.querySelector('#sidebar-db-link');
         if (sidebarDb) {
@@ -276,7 +307,6 @@ export function initDashboard(container, state, actions) {
             sidebarCourses.addEventListener('click', (e) => {
                 e.preventDefault();
                 actions.navigate('landing');
-                // Scroll to courses section on landing
                 setTimeout(() => {
                     const sec = document.querySelector('#courses-section');
                     if (sec) sec.scrollIntoView({ behavior: 'smooth' });

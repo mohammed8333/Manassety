@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Menassaty School Landing Page Component
+   Menassaty School Landing Page Component (With Stages & Grades Selector)
    ========================================================================== */
 
 import { courses } from '../coursesData.js';
@@ -8,9 +8,13 @@ export function initLandingPage(container, state, actions) {
     let currentFilter = 'all';
 
     function render() {
-        const filteredCourses = currentFilter === 'all' 
-            ? courses 
-            : courses.filter(c => c.category === currentFilter);
+        // 1. Filter courses based on user's active grade selection
+        let filteredGradeCourses = courses.filter(c => c.grade === state.selectedGrade);
+        
+        // 2. Filter courses based on subject category tab
+        const finalFilteredCourses = currentFilter === 'all' 
+            ? filteredGradeCourses 
+            : filteredGradeCourses.filter(c => c.category === currentFilter);
 
         container.innerHTML = `
             <!-- Top Elegant Header -->
@@ -54,7 +58,7 @@ export function initLandingPage(container, state, actions) {
                     </p>
                     <div class="hero-buttons">
                         <button class="btn-primary" id="hero-primary-btn">
-                            <span>استعرض المواد المدرسية</span>
+                            <span>اختر صفك الدراسي</span>
                             <i class="fa-solid fa-compass"></i>
                         </button>
                         <button class="btn-secondary" id="hero-secondary-btn">
@@ -95,12 +99,12 @@ export function initLandingPage(container, state, actions) {
                     <span class="stat-label">طلاب متفوقين</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-num" data-val="50">3 مواد</span>
-                    <span class="stat-label">أساسية تفاعلية</span>
+                    <span class="stat-num" data-val="50">3 مراحل</span>
+                    <span class="stat-label">ابتدائي، إعدادي، ثانوي</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-num" data-val="200">+48 درس</span>
-                    <span class="stat-label">مشروح بدقة</span>
+                    <span class="stat-num" data-val="200">12 صفاً</span>
+                    <span class="stat-label">دراسياً متكاملاً</span>
                 </div>
                 <div class="stat-card">
                     <span class="stat-num" data-val="98">99.2%</span>
@@ -108,23 +112,135 @@ export function initLandingPage(container, state, actions) {
                 </div>
             </section>
 
+            <!-- Interactive Academic Stages & Grades Portal -->
+            <section id="stages-section" class="stages-section" style="padding: 4rem; border-top: 1px solid var(--card-border);">
+                <div class="section-title" style="text-align: center; margin-bottom: 3.5rem;">
+                    <div class="badge badge-secondary" style="margin-bottom: 1rem; padding: 0.5rem 1rem;">
+                        <i class="fa-solid fa-school" style="margin-left: 6px;"></i>
+                        <span>اختر صفك الدراسي للبدء</span>
+                    </div>
+                    <h2>بوابة الصفوف الدراسية المنهجية</h2>
+                    <p>اختر مرحلتك وصفك الدراسي الحالي لعرض الدروس والمناهج الخاصة بك فوراً</p>
+                </div>
+
+                <!-- Stage Tab Switchers -->
+                <div class="stage-tabs-bar">
+                    <button class="stage-tab-btn ${state.selectedStage === 'primary' ? 'active' : ''}" data-stage="primary">
+                        <i class="fa-solid fa-child" style="margin-left: 8px;"></i>
+                        <span>المرحلة الابتدائية</span>
+                    </button>
+                    <button class="stage-tab-btn ${state.selectedStage === 'preparatory' ? 'active' : ''}" data-stage="preparatory">
+                        <i class="fa-solid fa-user-graduate" style="margin-left: 8px;"></i>
+                        <span>المرحلة الإعدادية</span>
+                    </button>
+                    <button class="stage-tab-btn ${state.selectedStage === 'secondary' ? 'active' : ''}" data-stage="secondary">
+                        <i class="fa-solid fa-award" style="margin-left: 8px;"></i>
+                        <span>المرحلة الثانوية</span>
+                    </button>
+                </div>
+
+                <!-- Grades panels grids -->
+                <div class="grades-panels-container">
+                    <!-- Primary panel (1st to 6th) -->
+                    <div class="grades-panel-content ${state.selectedStage === 'primary' ? 'active' : ''}">
+                        <div class="grades-cards-grid">
+                            ${[
+                                { id: 'prim1', name: 'الصف الأول الابتدائي' },
+                                { id: 'prim2', name: 'الصف الثاني الابتدائي' },
+                                { id: 'prim3', name: 'الصف الثالث الابتدائي' },
+                                { id: 'prim4', name: 'الصف الرابع الابتدائي' },
+                                { id: 'prim5', name: 'الصف الخامس الابتدائي' },
+                                { id: 'prim6', name: 'الصف السادس الابتدائي' }
+                            ].map(g => `
+                                <div class="grade-card glass-panel ${state.selectedGrade === g.id ? 'active' : ''}" data-grade-id="${g.id}" data-grade-title="${g.name}" data-grade-stage="primary">
+                                    <div class="grade-card-icon"><i class="fa-solid fa-circle-1" style="display:none;"></i>🏫</div>
+                                    <h3>${g.name}</h3>
+                                    <span class="grade-card-arrow"><i class="fa-solid fa-chevron-left"></i></span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Preparatory panel (1st to 3rd) -->
+                    <div class="grades-panel-content ${state.selectedStage === 'preparatory' ? 'active' : ''}">
+                        <div class="grades-cards-grid">
+                            ${[
+                                { id: 'prep1', name: 'الصف الأول الإعدادي' },
+                                { id: 'prep2', name: 'الصف الثاني الإعدادي' },
+                                { id: 'prep3', name: 'الصف الثالث الإعدادي' }
+                            ].map(g => `
+                                <div class="grade-card glass-panel ${state.selectedGrade === g.id ? 'active' : ''}" data-grade-id="${g.id}" data-grade-title="${g.name}" data-grade-stage="preparatory">
+                                    <div class="grade-card-icon">🎓</div>
+                                    <h3>${g.name}</h3>
+                                    <span class="grade-card-arrow"><i class="fa-solid fa-chevron-left"></i></span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Secondary panel (1st to 3rd) -->
+                    <div class="grades-panel-content ${state.selectedStage === 'secondary' ? 'active' : ''}">
+                        <div class="grades-cards-grid">
+                            ${[
+                                { id: 'sec1', name: 'الصف الأول الثانوي' },
+                                { id: 'sec2', name: 'الصف الثاني الثانوي' },
+                                { id: 'sec3', name: 'الصف الثالث الثانوي' }
+                            ].map(g => `
+                                <div class="grade-card glass-panel ${state.selectedGrade === g.id ? 'active' : ''}" data-grade-id="${g.id}" data-grade-title="${g.name}" data-grade-stage="secondary">
+                                    <div class="grade-card-icon">🏆</div>
+                                    <h3>${g.name}</h3>
+                                    <span class="grade-card-arrow"><i class="fa-solid fa-chevron-left"></i></span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Featured Courses Section -->
-            <section id="courses-section" class="featured-courses">
+            <section id="courses-section" class="featured-courses" style="border-top: 1px solid var(--card-border);">
                 <div class="section-header">
                     <div class="section-title">
-                        <h2>استكشف موادك المنهجية التفاعلية</h2>
-                        <p>اختر المادة الدراسية للبدء في تصفح الفصول والدروس وإجراء الاختبارات التفاعلية</p>
+                        <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--primary); font-weight: 700; margin-bottom: 0.5rem;">
+                            <i class="fa-solid fa-book-open"></i>
+                            <span>تصفح مناهج: ${state.selectedGradeAr}</span>
+                        </div>
+                        <h2>المواد الدراسية المتاحة</h2>
+                        <p>اختر المادة للبدء في تصفح الفصول والدروس وإجراء الاختبارات التفاعلية</p>
                     </div>
                     <div class="course-filters">
                         <button class="filter-btn ${currentFilter === 'all' ? 'active' : ''}" data-filter="all">الكل</button>
                         <button class="filter-btn ${currentFilter === 'math' ? 'active' : ''}" data-filter="math">الرياضيات</button>
-                        <button class="filter-btn ${currentFilter === 'physics' ? 'active' : ''}" data-filter="physics">الفيزياء</button>
+                        <button class="filter-btn ${currentFilter === 'physics' ? 'active' : ''}" data-filter="physics">الفيزياء والعلوم</button>
                         <button class="filter-btn ${currentFilter === 'arabic' ? 'active' : ''}" data-filter="arabic">اللغة العربية</button>
                     </div>
                 </div>
 
                 <div class="courses-grid">
-                    ${filteredCourses.map(course => {
+                    ${finalFilteredCourses.length === 0 ? `
+                        <!-- Friendly empty state with direct demo grade switches -->
+                        <div class="glass-panel" style="grid-column: 1 / -1; padding: 4rem 2rem; text-align: center; border-radius: var(--radius-lg); border: 1px solid var(--card-border);">
+                            <div style="font-size: 3.5rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+                                <i class="fa-solid fa-circle-nodes"></i>
+                            </div>
+                            <h3 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 0.75rem;">منهج دراسي قيد التجهيز</h3>
+                            <p style="color: var(--text-secondary); max-width: 520px; margin: 0 auto 2rem; line-height: 1.7;">
+                                لم نقم برفع شروحات مخصصة لـ <strong>${state.selectedGradeAr}</strong> بعد في نسختنا التجريبية الحالية. <br>
+                                نقترح عليك اختيار أحد الصفوف الدراسية الممتلئة بالكامل بالدروس والكويزات لمعاينتها فوراً:
+                            </p>
+                            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                                <button class="btn-primary" id="demo-grade-sec3-btn" style="padding: 0.6rem 1.25rem; font-size: 0.85rem;">
+                                    <span>الصف الثالث الثانوي (كامل المنهج)</span>
+                                </button>
+                                <button class="btn-secondary" id="demo-grade-prim6-btn" style="padding: 0.6rem 1.25rem; font-size: 0.85rem;">
+                                    <span>الصف السادس الابتدائي (علوم)</span>
+                                </button>
+                                <button class="btn-secondary" id="demo-grade-prep1-btn" style="padding: 0.6rem 1.25rem; font-size: 0.85rem;">
+                                    <span>الصف الأول الإعدادي (لغة عربية)</span>
+                                </button>
+                            </div>
+                        </div>
+                    ` : finalFilteredCourses.map(course => {
                         const isEnrolled = state.enrolledCourses.includes(course.id);
                         return `
                             <div class="course-card">
@@ -324,7 +440,7 @@ export function initLandingPage(container, state, actions) {
         const heroPrimaryBtn = container.querySelector('#hero-primary-btn');
         if (heroPrimaryBtn) {
             heroPrimaryBtn.addEventListener('click', () => {
-                const sec = container.querySelector('#courses-section');
+                const sec = container.querySelector('#stages-section');
                 if (sec) sec.scrollIntoView({ behavior: 'smooth' });
             });
         }
@@ -350,6 +466,70 @@ export function initLandingPage(container, state, actions) {
                 e.preventDefault();
                 const sec = container.querySelector('#courses-section');
                 if (sec) sec.scrollIntoView({ behavior: 'smooth' });
+            });
+        }
+
+        // Stage Tabs Click Handler
+        container.querySelectorAll('.stage-tabs-bar .stage-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const stage = btn.getAttribute('data-stage');
+                state.selectedStage = stage;
+                render();
+                
+                // Keep the stages-section viewport stable after render
+                const sec = container.querySelector('#stages-section');
+                if (sec) sec.scrollIntoView({ behavior: 'auto' });
+            });
+        });
+
+        // Grade Card Click Handler
+        container.querySelectorAll('.grades-panel-content .grade-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const gradeId = card.getAttribute('data-grade-id');
+                const stage = card.getAttribute('data-grade-stage');
+                const title = card.getAttribute('data-grade-title');
+                
+                actions.selectGrade(stage, gradeId, title);
+                
+                // Smooth scroll down to course section immediately
+                setTimeout(() => {
+                    const sec = container.querySelector('#courses-section');
+                    if (sec) sec.scrollIntoView({ behavior: 'smooth' });
+                }, 150);
+            });
+        });
+
+        // Blank state demo grade buttons
+        const demoSec3 = container.querySelector('#demo-grade-sec3-btn');
+        if (demoSec3) {
+            demoSec3.addEventListener('click', () => {
+                actions.selectGrade('secondary', 'sec3', 'الصف الثالث الثانوي');
+                setTimeout(() => {
+                    const sec = container.querySelector('#courses-section');
+                    if (sec) sec.scrollIntoView({ behavior: 'smooth' });
+                }, 150);
+            });
+        }
+
+        const demoPrim6 = container.querySelector('#demo-grade-prim6-btn');
+        if (demoPrim6) {
+            demoPrim6.addEventListener('click', () => {
+                actions.selectGrade('primary', 'prim6', 'الصف السادس الابتدائي');
+                setTimeout(() => {
+                    const sec = container.querySelector('#courses-section');
+                    if (sec) sec.scrollIntoView({ behavior: 'smooth' });
+                }, 150);
+            });
+        }
+
+        const demoPrep1 = container.querySelector('#demo-grade-prep1-btn');
+        if (demoPrep1) {
+            demoPrep1.addEventListener('click', () => {
+                actions.selectGrade('preparatory', 'prep1', 'الصف الأول الإعدادي');
+                setTimeout(() => {
+                    const sec = container.querySelector('#courses-section');
+                    if (sec) sec.scrollIntoView({ behavior: 'smooth' });
+                }, 150);
             });
         }
 
