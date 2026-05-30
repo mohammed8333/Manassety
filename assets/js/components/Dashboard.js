@@ -79,7 +79,7 @@ export function initDashboard(container, state, actions) {
                             <div class="logo-icon-wrap" style="width: 38px; height: 38px; font-size: 1rem;">
                                 <img src="assets/images/logo.png?v=1.2" alt="شعار منصتي" class="logo-img">
                             </div>
-                            <span>منصتي المدرسية</span>
+                            <span>منصتي</span>
                         </div>
                     </div>
                     

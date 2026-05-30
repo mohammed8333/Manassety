@@ -23,7 +23,7 @@ export function initLandingPage(container, state, actions) {
                     <div class="logo-icon-wrap">
                         <img src="assets/images/logo.png?v=1.2" alt="شعار منصتي" class="logo-img">
                     </div>
-                    <span>منصتي المدرسية</span>
+                    <span>منصتي</span>
                 </div>
                 <nav class="main-nav">
                     <a href="#" class="nav-link active" data-nav="landing">الرئيسية</a>
@@ -368,7 +368,7 @@ export function initLandingPage(container, state, actions) {
                             <div class="logo-icon-wrap" style="width: 46px; height: 46px;">
                                 <img src="assets/images/logo.png?v=1.2" alt="شعار منصتي" class="logo-img">
                             </div>
-                            <span>منصتي المدرسية</span>
+                            <span>منصتي</span>
                         </div>
                         <p>المنصة المدرسية العربية الأولى لتعلم المناهج الدراسية بأساليب تفاعلية مبتكرة وشرح مبسط لضمان العلامة الكاملة.</p>
                     </div>
@@ -398,7 +398,7 @@ export function initLandingPage(container, state, actions) {
                     </div>
                 </div>
                 <div class="footer-bottom">
-                    <span>جميع الحقوق محفوظة © منصتي التعليمية المدرسية 2026</span>
+                    <span>جميع الحقوق محفوظة © منصتي التعليمية 2026</span>
                     <div class="social-links">
                         <a href="#" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
                         <a href="#" class="social-icon"><i class="fa-brands fa-linkedin-in"></i></a>
