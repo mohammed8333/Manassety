@@ -1,4 +1,4 @@
-import{b as u,d as b,c as S}from"./index-DiqDKeqa.js";import x from"./storageService-Cz0gsLDv.js";import{e as l}from"./xss-D4V6puIs.js";function M(t,s,o){let c="all",m="";const T=u.subscribe(p=>{(s.theme!==p.theme||s.user!==p.user)&&(s=p,y())});function y(){const p=b.searchCourses(m,"all","all").filter(e=>e.grade===s.selectedGrade),g=c==="all"?p:p.filter(e=>e.category===c),r=!!s.user;S.isAdmin();const v=S.isInstructor();t.innerHTML=`
+import{b as u,d as b,c as S}from"./index-Q_k2hM5E.js";import x from"./storageService-BxdiJ_ts.js";import{e as l}from"./xss-D4V6puIs.js";function M(t,s,o){let c="all",m="";const T=u.subscribe(p=>{(s.theme!==p.theme||s.user!==p.user)&&(s=p,y())});function y(){const p=b.searchCourses(m,"all","all").filter(e=>e.grade===s.selectedGrade),g=c==="all"?p:p.filter(e=>e.category===c),r=!!s.user;S.isAdmin();const v=S.isInstructor();t.innerHTML=`
             <!-- Top Elegant Header -->
             <header class="main-header glass-panel scrolled">
                 <div class="logo-container" id="logo-btn" style="cursor: pointer;">

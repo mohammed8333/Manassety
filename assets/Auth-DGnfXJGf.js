@@ -1,4 +1,4 @@
-import{c as b,b as j}from"./index-DiqDKeqa.js";import{a as D,b as V}from"./validators-k0nZOdk1.js";import{e as d}from"./xss-D4V6puIs.js";function B(t,I,g){let o="login",i="",p="",m=!1,u="",y="",x="",l="student";function a(){t.innerHTML=`
+import{c as b,b as j}from"./index-Q_k2hM5E.js";import{a as D,b as V}from"./validators-k0nZOdk1.js";import{e as d}from"./xss-D4V6puIs.js";function B(t,I,g){let o="login",i="",p="",m=!1,u="",y="",x="",l="student";function a(){t.innerHTML=`
             <div class="auth-page-wrapper" style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; position: relative;">
                 <!-- Decorative background elements -->
                 <div class="glow-orb orb-1" style="top:10%; right:10%;"></div>
