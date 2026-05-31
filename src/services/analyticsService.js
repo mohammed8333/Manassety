@@ -1,4 +1,4 @@
-import { dbService } from './supabase.js';
+import { localDBService as dbService } from './localDBService.js';
 import appStore from '../store/appStore.js';
 
 export const analyticsService = {

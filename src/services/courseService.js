@@ -1,4 +1,4 @@
-import { dbService } from './supabase.js';
+import { localDBService as dbService } from './localDBService.js';
 import appStore from '../store/appStore.js';
 import { courses as initialCourses } from '../data/coursesData.js';
 import { notificationService } from './notificationService.js';

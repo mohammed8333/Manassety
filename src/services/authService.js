@@ -1,4 +1,4 @@
-import { supabase, dbService } from './supabase.js';
+import { localDBService as dbService } from './localDBService.js';
 import appStore from '../store/appStore.js';
 import { notificationService } from './notificationService.js';
 
@@ -6,83 +6,79 @@ export const authService = {
     // Check if user is logged in and restore state
     init() {
         return new Promise((resolve) => {
-            supabase.auth.onAuthStateChange(async (event, session) => {
-                const user = session?.user || null;
-                
-                if (user) {
-                    try {
-                        let userData = {
-                            uid: user.id,
-                            email: user.email,
-                            name: user.user_metadata?.name || user.email.split('@')[0],
-                            role: user.user_metadata?.role || 'student',
-                            avatar: user.user_metadata?.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=100&h=100'
-                        };
-
-                        // Fetch from dbService (Supabase table users)
-                        const cloudData = await dbService.getDoc('users', user.id);
-
-                        if (cloudData) {
-                            userData = { ...userData, ...cloudData };
-                        } else {
-                            // If user details not in users table, save them
-                            await dbService.setDoc('users', user.id, userData);
-                        }
-
-                        appStore.setUser(userData);
-                        
-                        // Dynamically import storageService to fetch progress on login
-                        const { storageService } = await import('./storageService.js');
-                        await storageService.loadProgress(user.id);
-                        
-                    } catch (error) {
-                        console.error("Error fetching user profile:", error);
-                        appStore.setUser({
-                            uid: user.id,
-                            email: user.email,
-                            name: user.email.split('@')[0],
-                            role: 'student',
-                            avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=100&h=100'
+            try {
+                const sessionStr = localStorage.getItem('menassaty_session');
+                if (sessionStr) {
+                    const session = JSON.parse(sessionStr);
+                    if (session && session.uid) {
+                        // Fetch latest user details from local db
+                        dbService.getDoc('users', session.uid).then(async (userData) => {
+                            if (userData) {
+                                appStore.setUser(userData);
+                                
+                                // Dynamically import storageService to fetch progress on login
+                                const { storageService } = await import('./storageService.js');
+                                await storageService.loadProgress(userData.uid);
+                                
+                                resolve(userData);
+                            } else {
+                                // Session is invalid, clear it
+                                localStorage.removeItem('menassaty_session');
+                                appStore.reset();
+                                resolve(null);
+                            }
+                        }).catch(err => {
+                            console.error("Error loading user profile on init:", err);
+                            appStore.reset();
+                            resolve(null);
                         });
+                    } else {
+                        appStore.reset();
+                        resolve(null);
                     }
                 } else {
                     appStore.reset();
+                    resolve(null);
                 }
-                resolve(appStore.getState().user);
-            });
+            } catch (e) {
+                console.error("Failed to restore session:", e);
+                appStore.reset();
+                resolve(null);
+            }
         });
     },
 
     // Login
     async login(email, password) {
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
+        // Fetch local registered users convenience map
+        const localUsers = JSON.parse(localStorage.getItem('menassaty_local_users')) || {};
+        const user = localUsers[email.toLowerCase().trim()];
         
-        const user = data.user;
-        let userData = {
-            uid: user.id,
-            email: user.email,
-            name: user.user_metadata?.name || user.email.split('@')[0],
-            role: user.user_metadata?.role || 'student',
-            avatar: user.user_metadata?.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=100&h=100'
-        };
-
-        const cloudData = await dbService.getDoc('users', user.id);
-        if (cloudData) {
-            userData = { ...userData, ...cloudData };
+        if (!user || user.password !== password) {
+            throw new Error("البريد الإلكتروني أو كلمة المرور غير صحيحة. يرجى التحقق وإعادة المحاولة.");
         }
         
+        const userData = {
+            uid: user.uid,
+            email: user.email,
+            name: user.name,
+            role: user.role,
+            avatar: user.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=100&h=100'
+        };
+
+        // Save session
+        localStorage.setItem('menassaty_session', JSON.stringify({ uid: user.uid, email: user.email }));
         appStore.setUser(userData);
         
         // Load progress
         const { storageService } = await import('./storageService.js');
-        await storageService.loadProgress(user.id);
+        await storageService.loadProgress(user.uid);
 
         // Push login notification
         notificationService.addNotification(
             'success', 
             'تسجيل دخول ناجح', 
-            `مرحباً بك مجدداً يا ${userData.name}! سعداء بوجودك اليوم.`
+            `مرحباً بك مجدداً يا ${userData.name}! سعداء بوجودك اليوم في منصتي.`
         );
 
         return userData;
@@ -90,46 +86,40 @@ export const authService = {
 
     // Register
     async register(email, password, name, role = 'student') {
-        const { data, error } = await supabase.auth.signUp({
-            email,
-            password,
-            options: {
-                data: {
-                    name,
-                    role,
-                    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=100&h=100'
-                }
-            }
-        });
-        if (error) throw error;
+        const localUsers = JSON.parse(localStorage.getItem('menassaty_local_users')) || {};
+        const cleanEmail = email.toLowerCase().trim();
+        
+        if (localUsers[cleanEmail]) {
+            throw new Error("البريد الإلكتروني هذا مسجل بالفعل لدينا. جرب تسجيل الدخول.");
+        }
 
-        const user = data.user;
+        const uid = 'user-' + Math.random().toString(36).substr(2, 9);
         const userData = {
-            uid: user.id,
-            email: user.email,
-            name: name,
-            role: role,
+            uid,
+            email: cleanEmail,
+            password, // Store password locally for validation
+            name,
+            role,
             avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=100&h=100'
         };
 
-        // Save profile in database
-        await dbService.setDoc('users', user.id, userData);
-        await dbService.setDoc('progress', user.id, {
+        const initialProgress = {
             enrolledCourses: [],
             completedLessons: {},
             passedQuizzes: [],
             favoriteCourses: [],
             lastActivity: { timestamp: new Date().toISOString(), action: 'register' }
-        });
+        };
 
+        // Save profile in local database
+        await dbService.setDoc('users', uid, userData);
+        await dbService.setDoc('progress', uid, initialProgress);
+
+        // Save session
+        localStorage.setItem('menassaty_session', JSON.stringify({ uid, email: cleanEmail }));
+        
         appStore.setUser(userData);
-        appStore.setProgress({
-            enrolledCourses: [],
-            completedLessons: {},
-            passedQuizzes: [],
-            favoriteCourses: [],
-            lastActivity: { timestamp: new Date().toISOString(), action: 'register' }
-        });
+        appStore.setProgress(initialProgress);
 
         notificationService.addNotification(
             'success',
@@ -142,16 +132,25 @@ export const authService = {
 
     // Logout
     async logout() {
-        const { error } = await supabase.auth.signOut();
-        if (error) throw error;
+        localStorage.removeItem('menassaty_session');
         appStore.reset();
     },
 
     // Password Reset
     async resetPassword(email) {
-        // Supabase has resetPasswordForEmail API
-        const { error } = await supabase.auth.resetPasswordForEmail(email);
-        if (error) throw error;
+        const localUsers = JSON.parse(localStorage.getItem('menassaty_local_users')) || {};
+        const user = localUsers[email.toLowerCase().trim()];
+        
+        if (!user) {
+            throw new Error("البريد الإلكتروني هذا غير مسجل لدينا في المنصة.");
+        }
+
+        // Mock password reset
+        notificationService.addNotification(
+            'info',
+            'إعادة تعيين كلمة المرور',
+            `تم إرسال رابط إعادة تعيين كلمة المرور بنجاح إلى بريدك الإلكتروني: ${email}.`
+        );
         return true;
     },
 
@@ -169,3 +168,4 @@ export const authService = {
 };
 
 export default authService;
+
