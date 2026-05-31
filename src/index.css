@@ -1,0 +1,49 @@
+@import '../assets/css/styles.css';
+
+/* ==========================================================================
+   Menassaty Modern Vite CSS Extensions & Additions
+   ========================================================================== */
+
+/* Premium radial background specifically for Auth page */
+.auth-page-wrapper {
+    background: radial-gradient(circle at top left, rgba(99, 102, 241, 0.08), transparent 45%),
+                radial-gradient(circle at bottom right, rgba(244, 63, 94, 0.05), transparent 45%),
+                var(--bg-primary);
+}
+
+/* Sidebar lists animations */
+.sidebar-item a {
+    transition: var(--transition-base);
+}
+
+/* Custom styling for cards */
+.notif-item-card {
+    border: 1px solid var(--card-border);
+    transition: var(--transition-base);
+}
+
+.notif-item-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(99, 102, 241, 0.25);
+}
+
+.notif-item-card.unread {
+    background: rgba(99, 102, 241, 0.02) !important;
+}
+
+/* Floating effects for grade cards */
+.grade-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.grade-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary);
+}
+
+/* Advanced search input transitions */
+#course-search-input:focus {
+    box-shadow: none;
+}
